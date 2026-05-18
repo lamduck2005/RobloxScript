@@ -1,0 +1,36 @@
+name: Update Latest Release Loadstrings
+
+on:
+  push:
+    branches:
+      - master 
+
+permissions:
+  contents: write  # Cấp quyền cho Action tạo và chỉnh sửa Release
+
+jobs:
+  update-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Lấy toàn bộ lịch sử commit để lấy thông tin ngày cập nhật file
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Generate Release Notes
+        run: |
+          python .github/scripts/generate_release_notes.py
+
+      - name: Update GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          tag: "latest"
+          name: "Latest Scripts"
+          bodyFile: "release_notes.md"
+          prerelease: false
