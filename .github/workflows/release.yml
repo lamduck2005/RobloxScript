@@ -3,10 +3,10 @@ name: Update Latest Release Loadstrings
 on:
   push:
     branches:
-      - master 
+      - master
 
 permissions:
-  contents: write  # Cấp quyền cho Action tạo và chỉnh sửa Release
+  contents: write
 
 jobs:
   update-release:
@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Lấy toàn bộ lịch sử commit để lấy thông tin ngày cập nhật file
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -26,11 +26,17 @@ jobs:
         run: |
           python .github/scripts/generate_release_notes.py
 
-      - name: Update GitHub Release
+      - name: Generate Dynamic Release Name
+        id: gen_name
+        run: |
+          # Dùng Python để tạo chuỗi dạng: 2026.05.18.aB3
+          REL_NAME=$(python -c "import datetime, random, string; print(datetime.datetime.now().strftime('%Y.%m.%d.') + ''.join(random.choices(string.ascii_letters + string.digits, k=3)))")
+          echo "DYNAMIC_NAME=$REL_NAME" >> $GITHUB_ENV
+
+      - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
-          allowUpdates: true
-          tag: "latest"
-          name: "Latest Scripts"
+          tag: "${{ env.DYNAMIC_NAME }}"
+          name: "${{ env.DYNAMIC_NAME }}"
           bodyFile: "release_notes.md"
           prerelease: false
