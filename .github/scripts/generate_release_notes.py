@@ -7,26 +7,27 @@ def get_git_last_modified(filepath):
         date_str = subprocess.check_output(
             ["git", "log", "-1", "--format=%cd", "--date=format:%Y-%m-%d %H:%M:%S", filepath]
         ).decode("utf-8").strip()
-        return date_str
+        return date_str if date_str else None
     except Exception:
         return None
 
 def main():
-    repo = os.environ.get("GITHUB_REPOSITORY")
-    branch = "master" # Đã sửa thành master cho khớp với file yml của ông
+    # Tự động lấy tên Repo và tên Nhánh đang chạy (không lo bị sai giữa main/master nữa)
+    repo = os.environ.get("GITHUB_REPOSITORY", "unknown/repo")
+    branch = os.environ.get("GITHUB_REF_NAME", "master")
     
     lua_files = []
     
+    # Bắt đầu quét từ thư mục gốc
     for root, dirs, files in os.walk("."):
-        parts = root.split(os.sep)
-        # SỬA LỖI Ở ĐÂY: Bỏ qua thư mục ẩn nhưng không bỏ qua thư mục gốc "."
-        if any(part.startswith('.') and part != '.' for part in parts):
-            continue
-            
+        # CÁCH FIX CHUẨN: Lọc bỏ ngay các thư mục ẩn (như .git, .github) nhưng không ảnh hưởng thư mục gốc "."
+        dirs[:] = [d for d in dirs if not d.startswith('.')]
+        
         for file in files:
-            # Chuyển thành đuôi chữ thường để không bị bỏ sót nếu file lỡ lưu là .Lua hoặc .LUA
+            # Quét tất cả các file có đuôi lua
             if file.lower().endswith(".lua"):
                 full_path = os.path.join(root, file)
+                # Tạo đường dẫn sạch (bỏ cái .\ ở đầu đi)
                 git_path = os.path.relpath(full_path, ".").replace(os.sep, "/")
                 
                 mod_date = get_git_last_modified(git_path)
@@ -39,16 +40,27 @@ def main():
                     "date": mod_date
                 })
     
+    # Sắp xếp danh sách file theo ngày cập nhật mới nhất lên trên
     lua_files.sort(key=lambda x: x["date"], reverse=True)
     
+    # IN RA LOG ĐỂ DEBUG TRÊN GITHUB ACTIONS
+    print(f"[*] Đã tìm thấy {len(lua_files)} file .lua:")
+    for f in lua_files:
+        print(f" -> {f['path']}")
+    
+    # Khởi tạo nội dung Markdown
     markdown_lines = []
     markdown_lines.append("# 🚀 Latest Script Loadstrings")
     markdown_lines.append(f"**Global Last Update:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} (UTC)\n")
     markdown_lines.append("Copy the `loadstring` below and paste it into your Roblox executor:\n")
     
+    if not lua_files:
+        markdown_lines.append("> ⚠️ No `.lua` scripts were found in the repository!")
+    
     for f in lua_files:
-        raw_url = f"https://raw.githubusercontent.com/{repo}/refs/heads/{branch}/{f['path']}"
-        loadstring_code = f'loadstring(game:HttpGet("{raw_url}"))()'
+        # Đường dẫn raw chuẩn và ngắn gọn nhất của GitHub
+        raw_url = f"https://raw.githubusercontent.com/{repo}/{branch}/{f['path']}"
+        loadstring_code = f'loadstring(game:HttpGet("{raw_url}", true))()'
         
         markdown_lines.append(f"### 📄 {f['name']}")
         markdown_lines.append(f"- **Last Updated:** `{f['date']}`")
@@ -56,8 +68,10 @@ def main():
         markdown_lines.append(loadstring_code)
         markdown_lines.append("```\n")
         
+    # Ghi ra file
     with open("release_notes.md", "w", encoding="utf-8") as out_file:
         out_file.write("\n".join(markdown_lines))
+        print("[*] Đã tạo xong file release_notes.md")
 
 if __name__ == "__main__":
     main()
