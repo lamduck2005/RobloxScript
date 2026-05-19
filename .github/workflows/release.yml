@@ -29,8 +29,7 @@ jobs:
       - name: Generate Dynamic Release Name
         id: gen_name
         run: |
-          # Tạo chuỗi định dạng: Năm.Tháng.Ngày (VD: 2026.05.18)
-          REL_NAME=$(python -c "import datetime, random, string; print(datetime.datetime.now().strftime('%Y.%m.%d.'))")
+          REL_NAME=$(python -c "import datetime; print(datetime.datetime.now(datetime.timezone.utc).strftime('%Y.%m.%d'))")
           echo "DYNAMIC_NAME=$REL_NAME" >> $GITHUB_ENV
 
       - name: Create GitHub Release
@@ -39,4 +38,5 @@ jobs:
           tag: "${{ env.DYNAMIC_NAME }}"
           name: "${{ env.DYNAMIC_NAME }}"
           bodyFile: "release_notes.md"
+          allowUpdates: true
           prerelease: false
