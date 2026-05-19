@@ -55,7 +55,7 @@ def main():
         raw_url = f"https://raw.githubusercontent.com/{repo}/{branch}/{f['path']}"
         loadstring_code = f'loadstring(game:HttpGet("{raw_url}", true))()'
         
-        markdown_lines.append(f"###- {f['name']}")
+        markdown_lines.append(f"### {f['name']}")
         markdown_lines.append(f"- **Last Updated:** `{f['date']}`")
         markdown_lines.append("```lua")
         markdown_lines.append(loadstring_code)
