@@ -53,7 +53,7 @@ def main():
     
     for f in lua_files:
         raw_url = f"https://raw.githubusercontent.com/{repo}/{branch}/{f['path']}"
-        loadstring_code = f'loadstring(game:HttpGet("{raw_url}", true))()'
+        loadstring_code = f'loadstring(game:HttpGet("{raw_url}"))()'
         
         markdown_lines.append(f"### {f['name']}")
         markdown_lines.append(f"- **Last Updated:** `{f['date']}`")
