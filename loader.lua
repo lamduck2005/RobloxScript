@@ -2,13 +2,13 @@ if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
-print("[Lamduck] Hola...")
-
 if getgenv().LD_LOADER_LOADED then
     print("[Lamduck] Loader already loaded!")
     return
 end
 getgenv().LD_LOADER_LOADED = true
+
+print("[Loader] Hola...")
 
 local BASE_URL = "https://raw.githubusercontent.com/lamduck2005/RobloxScript/master"
 
