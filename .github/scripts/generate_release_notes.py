@@ -21,14 +21,14 @@ def main():
         dirs[:] = [d for d in dirs if not d.startswith('.')]
         
         for file in files:
-            if file.lower().endswith(".lua"):
+            if file.lower().endswith((".lua", ".luau")):
                 full_path = os.path.join(root, file)
                 git_path = os.path.relpath(full_path, ".").replace(os.sep, "/")
                 
                 mod_date = get_git_last_modified(git_path)
                 if not mod_date:
                     mod_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                base_name = file[:-4] 
+                base_name = file[:-5] if file.lower().endswith(".luau") else file[:-4]
                 display_name = base_name.replace("-", " ").replace("_", " ").title()
                 
                 lua_files.append({
