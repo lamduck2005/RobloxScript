@@ -40,7 +40,7 @@ local GAME_LIST = {
     { GameId = 10039338037, Display = "Build A Ring Farm", File = "build-a-ring-farm.lua" },
     { GameId = 7812848099,  Display = "Build A Beehive",   File = "build-a-beehive.lua" },
     { GameId = 10200395747, Display = "Grow A Garden 2",   File = "grow-a-garden-2.lua" },
-    { GameId = 7395930870,  Display = "Sell Lemon",        File = "sell-lemon.lua" },
+    { GameId = 7395930870,  Display = "Sell Lemon",        File = "SellLemon.luau" },
     { GameId = 7139435866,  Display = "Free Fire Max",     File = "free-fire-max.lua" },
     { GameId = 10081194651, Display = "Pickaxe Tycoon",    File = "pickaxe-tycoon.lua" },
     { GameId = 8181391950,  Display = "Neo Tennis",        File = "neo-tennis.lua" },

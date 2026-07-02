@@ -1,4 +1,5 @@
 import os
+import re
 import subprocess
 from datetime import datetime
 
@@ -29,7 +30,8 @@ def main():
                 if not mod_date:
                     mod_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 base_name = file[:-5] if file.lower().endswith(".luau") else file[:-4]
-                display_name = base_name.replace("-", " ").replace("_", " ").title()
+                name_with_spaces = re.sub(r'(?<=[a-z])(?=[A-Z])', ' ', base_name)
+                display_name = name_with_spaces.replace("-", " ").replace("_", " ").title()
                 
                 lua_files.append({
                     "name": display_name, 
