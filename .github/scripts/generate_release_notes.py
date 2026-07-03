@@ -30,7 +30,7 @@ def main():
                 if not mod_date:
                     mod_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 base_name = file[:-5] if file.lower().endswith(".luau") else file[:-4]
-                name_with_spaces = re.sub(r'(?<=[a-z])(?=[A-Z])', ' ', base_name)
+                name_with_spaces = re.sub(r'(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])', ' ', base_name)
                 display_name = name_with_spaces.replace("-", " ").replace("_", " ").title()
                 
                 lua_files.append({
