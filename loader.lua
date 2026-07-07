@@ -12,32 +12,8 @@ print("[Loader] Hola...")
 
 local BASE_URL = "https://raw.githubusercontent.com/lamduck2005/RobloxScript/master"
 
-local QUEUE_CODE = string.format([[
-    local enable = true
-    pcall(function()
-        if isfile and isfile("Lamduck/UniversalConfig.json") then
-            local HttpService = game:GetService("HttpService")
-            local data = HttpService:JSONDecode(readfile("Lamduck/UniversalConfig.json"))
-            if data and data.EnableAutoExec ~= nil then
-                enable = data.EnableAutoExec
-            end
-        end
-    end)
-    if not enable then return end
-    local ok, result = pcall(function() return game:HttpGet("%s/loader.lua") end)
-    if ok and result then
-        local func = loadstring(result)
-        if func then func() end
-    end
-]], BASE_URL)
-
-local queueteleport = queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
-if queueteleport then
-    queueteleport(QUEUE_CODE)
-end
-
 local GAME_LIST = {
-    { GameId = 10039338037, Display = "Build A Ring Farm", File = "build-a-ring-farm.lua" },
+    { GameId = 10039338037, Display = "Build A Ring Farm", File = "BuildARingFarm.luau" },
     { GameId = 7812848099,  Display = "Build A Beehive",   File = "build-a-beehive.lua" },
     { GameId = 10200395747, Display = "Grow A Garden 2",   File = "grow-a-garden-2.lua" },
     { GameId = 7395930870,  Display = "Sell Lemon",        File = "SellLemon.luau" },
