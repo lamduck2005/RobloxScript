@@ -14,7 +14,7 @@ local BASE_URL = "https://raw.githubusercontent.com/lamduck2005/RobloxScript/mas
 
 local GAME_LIST = {
     { GameId = 10039338037, Display = "Build A Ring Farm", File = "BuildARingFarm.luau" },
-    { GameId = 7812848099,  Display = "Build A Beehive",   File = "build-a-beehive.lua" },
+    { GameId = 7812848099,  Display = "Build A Beehive",   File = "BuildABeehive.luau" },
     { GameId = 10200395747, Display = "Grow A Garden 2",   File = "grow-a-garden-2.lua" },
     { GameId = 7395930870,  Display = "Sell Lemon",        File = "SellLemon.luau" },
     { GameId = 7139435866,  Display = "Free Fire Max",     File = "free-fire-max.lua" },
