@@ -10,7 +10,7 @@ getgenv().LD_LOADER_LOADED = true
 
 print("[Loader] Hola...")
 
-local BASE_URL = "https://raw.githubusercontent.com/lamduck2005/RobloxScript/master"
+local BASE_URL = "https://cdn.jsdelivr.net/gh/lamduck2005/RobloxScript@master"
 
 local GAME_LIST = {
     { GameId = 10039338037, Display = "Build A Ring Farm", File = "BuildARingFarm.luau" },
