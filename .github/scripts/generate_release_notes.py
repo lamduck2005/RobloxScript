@@ -54,8 +54,8 @@ def main():
         markdown_lines.append(">- No `.lua` scripts were found in the repository!")
     
     for f in lua_files:
-        raw_url = f"https://raw.githubusercontent.com/{repo}/{branch}/{f['path']}"
-        loadstring_code = f'loadstring(game:HttpGet("{raw_url}"))()'
+        cdn_url = f"https://cdn.jsdelivr.net/gh/{repo}@{branch}/{f['path']}"
+        loadstring_code = f'loadstring(game:HttpGet("{cdn_url}"))()'
         
         markdown_lines.append(f"### {f['name']}")
         markdown_lines.append(f"- **Last Updated:** `{f['date']}`")
