@@ -26,11 +26,18 @@ local function runScript(filename)
     local ok, result = pcall(function()
         return game:HttpGet(BASE_URL .. "/" .. filename)
     end)
-    if ok and result then
-        local func = loadstring(result)
-        if func then
-            func()
-        end
+    if not ok or not result then
+        warn("[Loader] Failed to download " .. filename .. ": " .. tostring(result))
+        return
+    end
+    local func, err = loadstring(result)
+    if not func then
+        warn("[Loader] Syntax error in " .. filename .. ": " .. tostring(err))
+        return
+    end
+    local runOk, runErr = pcall(func)
+    if not runOk then
+        warn("[Loader] Runtime error while executing " .. filename .. ": " .. tostring(runErr))
     end
 end
 
