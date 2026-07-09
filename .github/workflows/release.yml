@@ -51,5 +51,5 @@ jobs:
         run: |
           for file in $ALL_CHANGED_FILES; do
             echo "Requesting cache purge for: $file"
-            curl -X POST "https://purge.jsdelivr.net/gh/${{ github.repository }}@master/$file"
+            curl -s "https://purge.jsdelivr.net/gh/${{ github.repository }}@master/$file"
           done
