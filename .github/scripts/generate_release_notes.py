@@ -53,9 +53,10 @@ def main():
     if not lua_files:
         markdown_lines.append(">- No `.lua` scripts were found in the repository!")
     
+    owner, repo_name = repo.split("/")
     for f in lua_files:
-        cdn_url = f"https://cdn.jsdelivr.net/gh/{repo}@{branch}/{f['path']}"
-        loadstring_code = f'loadstring(game:HttpGet("{cdn_url}"))()'
+        github_io_url = f"https://{owner}.github.io/{repo_name}/{f['path']}"
+        loadstring_code = f'loadstring(game:HttpGet("{github_io_url}"))()'
         
         markdown_lines.append(f"### {f['name']}")
         markdown_lines.append(f"- **Last Updated:** `{f['date']}`")
