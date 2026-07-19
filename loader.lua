@@ -10,7 +10,11 @@ getgenv().LD_LOADER_LOADED = true
 
 print("[Loader] Hola...")
 
-local BASE_URL = "https://cdn.jsdelivr.net/gh/lamduck2005/RobloxScript@master"
+local SOURCE_URLS = {
+    "https://lamduck2005.github.io/RobloxScript",
+    "https://raw.githubusercontent.com/lamduck2005/RobloxScript/master",
+    "https://cdn.jsdelivr.net/gh/lamduck2005/RobloxScript@master",
+}
 
 local GAME_LIST = {
     { GameId = 10039338037, Display = "Build A Ring Farm", File = "BuildARingFarm.luau" },
@@ -23,22 +27,30 @@ local GAME_LIST = {
 }
 
 local function runScript(filename)
-    local ok, result = pcall(function()
-        return game:HttpGet(BASE_URL .. "/" .. filename)
-    end)
-    if not ok or not result then
-        warn("[Loader] Failed to download " .. filename .. ": " .. tostring(result))
-        return
+    local lastError = nil
+    for _, baseUrl in ipairs(SOURCE_URLS) do
+        local ok, result = pcall(function()
+            return game:HttpGet(baseUrl .. "/" .. filename)
+        end)
+        if ok and result and #result > 0 then
+            local func, syntaxErr = loadstring(result)
+            if not func then
+                warn("[Loader] Syntax error in " .. filename .. ": " .. tostring(syntaxErr))
+                return
+            end
+            local runOk, runErr = pcall(func)
+            if not runOk then
+                warn("[Loader] Runtime error while executing " .. filename .. ": " .. tostring(runErr))
+            else
+                print("[Loader] Loaded " .. filename .. " from " .. baseUrl)
+            end
+            return
+        else
+            lastError = tostring(result)
+            warn("[Loader] Failed to fetch from " .. baseUrl .. ": " .. lastError)
+        end
     end
-    local func, err = loadstring(result)
-    if not func then
-        warn("[Loader] Syntax error in " .. filename .. ": " .. tostring(err))
-        return
-    end
-    local runOk, runErr = pcall(func)
-    if not runOk then
-        warn("[Loader] Runtime error while executing " .. filename .. ": " .. tostring(runErr))
-    end
+    warn("[Loader] All sources failed for " .. filename .. ". Last error: " .. tostring(lastError))
 end
 
 local target = nil
