@@ -2,7 +2,7 @@ if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
-if getgenv().LD_LOADER_LOADED then
+if getgenv().LD_LOADER_LOADED == true then
     print("[Lamduck] Loader already loaded!")
     return
 end
@@ -36,6 +36,7 @@ local function runScript(filename)
             local func, syntaxErr = loadstring(result)
             if not func then
                 warn("[Loader] Syntax error in " .. filename .. ": " .. tostring(syntaxErr))
+                getgenv().LD_LOADER_LOADED = false
                 return
             end
             local runOk, runErr = pcall(func)
@@ -44,12 +45,14 @@ local function runScript(filename)
             else
                 print("[Loader] Loaded " .. filename .. " from " .. baseUrl)
             end
+            getgenv().LD_LOADER_LOADED = false
             return
         else
             lastError = tostring(result)
             warn("[Loader] Failed to fetch from " .. baseUrl .. ": " .. lastError)
         end
     end
+    getgenv().LD_LOADER_LOADED = false
     warn("[Loader] All sources failed for " .. filename .. ". Last error: " .. tostring(lastError))
 end
 
@@ -121,7 +124,7 @@ closeBtn.MouseLeave:Connect(function()
     closeBtn.TextColor3 = Color3.fromRGB(120, 120, 140)
 end)
 closeBtn.MouseButton1Click:Connect(function()
-    getgenv().LD_LOADER_LOADED = nil
+    getgenv().LD_LOADER_LOADED = false
     gui:Destroy()
 end)
 
@@ -193,7 +196,7 @@ for i, entry in ipairs(GAME_LIST) do
         runBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 55)
     end)
     runBtn.MouseButton1Click:Connect(function()
-        getgenv().LD_LOADER_LOADED = nil
+        getgenv().LD_LOADER_LOADED = false
         gui:Destroy()
         runScript(entry.File)
     end)
