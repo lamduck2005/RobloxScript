@@ -17,6 +17,7 @@ local SOURCE_URLS = {
 }
 
 local GAME_LIST = {
+    { GameId = 10454554751, Display = "Unbox ASMR",        File = "UnboxASMR.luau" },
     { GameId = 10039338037, Display = "Build A Ring Farm", File = "BuildARingFarm.luau" },
     { GameId = 7812848099,  Display = "Build A Beehive",   File = "BuildABeehive.luau" },
     { GameId = 10200395747, Display = "Grow A Garden 2",   File = "grow-a-garden-2.lua" },
