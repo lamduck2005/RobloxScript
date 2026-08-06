@@ -5,6 +5,13 @@
 # File: .github/workflows/refresh.yml
 name: Refresh
 
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        required: false
+        default: 'manual rebuild'
+
 jobs:
   refresh:
     runs-on: ubuntu-latest
