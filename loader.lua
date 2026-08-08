@@ -22,6 +22,7 @@ local GAME_LIST = {
     { GameId = 10286476790, Display = "Build A Fruit Farm",File = "BuildAFruitFarm.luau" },
     { GameId = 7812848099,  Display = "Build A Beehive",   File = "BuildABeehive.luau" },
     { GameId = 10209534490, Display = "Chicken Farm",      File = "ChickenFarm.luau" },
+    { GameId = 10338952197, Display = "Grow A Chicken Fighter", File = "GrowAChickenFighter.luau" },
     { GameId = 10410945205, Display = "Cut Grass Adventure",File = "CutGrassAdventure.luau" },
     { GameId = 10200395747, Display = "Grow A Garden 2",   File = "grow-a-garden-2.lua" },
     { GameId = 7395930870,  Display = "Sell Lemon",        File = "SellLemon.luau" },
