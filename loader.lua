@@ -7,6 +7,9 @@ if getgenv().LD_LOADER_LOADED == true then
     return
 end
 getgenv().LD_LOADER_LOADED = true
+task.delay(10, function()
+    getgenv().LD_LOADER_LOADED = false
+end)
 
 print("[Loader] Hola...")
 
@@ -47,10 +50,10 @@ local function runScript(filename)
             local runOk, runErr = pcall(func)
             if not runOk then
                 warn("[Loader] Runtime error while executing " .. filename .. ": " .. tostring(runErr))
+                getgenv().LD_LOADER_LOADED = false
             else
                 print("[Loader] Loaded " .. filename .. " from " .. baseUrl)
             end
-            getgenv().LD_LOADER_LOADED = false
             return
         else
             lastError = tostring(result)
