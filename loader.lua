@@ -32,7 +32,20 @@ local GAME_LIST = {
     { GameId = 7139435866,  Display = "Free Fire Max",     File = "free-fire-max.lua" },
     { GameId = 10081194651, Display = "Pickaxe Tycoon",    File = "pickaxe-tycoon.lua" },
     { GameId = 8181391950,  Display = "Neo Tennis",        File = "neo-tennis.lua" },
+    { GameId = 9656201728,  Display = "Dungeon Lootr",     File = "DungeonLootr_Dungeon.luau", Places = {
+        [106484206883664] = "DungeonLootr_Lobby.luau",
+    } },
 }
+
+local function getScriptFile(entry)
+    if not entry then
+        return nil
+    end
+    if entry.Places and entry.Places[game.PlaceId] then
+        return entry.Places[game.PlaceId]
+    end
+    return entry.File
+end
 
 local function runScript(filename)
     local lastError = nil
@@ -73,7 +86,7 @@ for _, g in ipairs(GAME_LIST) do
     end
 end
 if target then
-    runScript(target.File)
+    runScript(getScriptFile(target))
     return
 end
 
@@ -206,7 +219,7 @@ for i, entry in ipairs(GAME_LIST) do
     runBtn.MouseButton1Click:Connect(function()
         getgenv().LD_LOADER_LOADED = false
         gui:Destroy()
-        runScript(entry.File)
+        runScript(getScriptFile(entry))
     end)
 end
 
