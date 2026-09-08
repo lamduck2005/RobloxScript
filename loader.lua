@@ -47,7 +47,44 @@ local function getScriptFile(entry)
     return entry.File
 end
 
+local function waitForKnit(timeout)
+    timeout = timeout or 15
+    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+    local packages = ReplicatedStorage:FindFirstChild("Packages")
+    local knitModule = (packages and packages:FindFirstChild("Knit")) or ReplicatedStorage:FindFirstChild("Knit")
+    if not (knitModule and knitModule:IsA("ModuleScript")) then
+        return true
+    end
+
+    local ok, Knit = pcall(require, knitModule)
+    if not (ok and type(Knit) == "table") then
+        return true
+    end
+
+    local startTime = os.clock()
+    while (os.clock() - startTime) < timeout do
+        local clientStarted = pcall(function()
+            return Knit.GetControllers()
+        end)
+
+        local knitClient = ReplicatedStorage:FindFirstChild("KnitClient", true)
+        local services = knitClient and knitClient.Parent:FindFirstChild("Services")
+        local serverReplicated = (services == nil) or (#services:GetChildren() > 0)
+
+        if clientStarted and serverReplicated then
+            task.wait(0.2)
+            return true
+        end
+
+        task.wait(0.25)
+    end
+
+    warn("[Loader] Knit wait timed out after " .. tostring(timeout) .. "s. Continuing anyway...")
+    return false
+end
+
 local function runScript(filename)
+    waitForKnit()
     local lastError = nil
     for _, baseUrl in ipairs(SOURCE_URLS) do
         local ok, result = pcall(function()
