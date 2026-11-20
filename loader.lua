@@ -28,15 +28,12 @@ local GAME_LIST = {
     { GameId = 10209534490, Display = "Chicken Farm",      File = "ChickenFarm.luau" },
     { GameId = 10338952197, Display = "Grow A Chicken Fighter", File = "GrowAChickenFighter.luau" },
     { GameId = 10410945205, Display = "Cut Grass Adventure",File = "CutGrassAdventure.luau" },
-    { GameId = 10200395747, Display = "Grow A Garden 2",   File = "grow-a-garden-2.lua" },
     { GameId = 7395930870,  Display = "Sell Lemon",        File = "SellLemon.luau" },
     { GameId = 10261267004, Display = "Storage Hunters",   File = "StorageHunters.luau" },
-    { GameId = 7139435866,  Display = "Free Fire Max",     File = "free-fire-max.lua" },
-    { GameId = 10081194651, Display = "Pickaxe Tycoon",    File = "pickaxe-tycoon.lua" },
-    { GameId = 8181391950,  Display = "Neo Tennis",        File = "neo-tennis.lua" },
     { GameId = 9656201728,  Display = "Dungeon Lootr",     File = "DungeonLootr_Dungeon.luau", Places = {
         [106484206883664] = "DungeonLootr_Lobby.luau",
     } },
+    { GameId = 2383988292,  Display = "Beeface!",          File = "Beeface.luau" },
 }
 
 local function getScriptFile(entry)
