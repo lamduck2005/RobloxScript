@@ -34,6 +34,7 @@ local GAME_LIST = {
         [106484206883664] = "DungeonLootr_Lobby.luau",
     } },
     { GameId = 2383988292,  Display = "Beeface!",          File = "Beeface.luau" },
+    { GameId = 10775182046, Display = "Throw a Seed",      File = "ThrowASeed.luau" },
 }
 
 local function getScriptFile(entry)
