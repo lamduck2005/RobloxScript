@@ -36,6 +36,7 @@ local GAME_LIST = {
     { GameId = 2383988292,  Display = "Beeface!",          File = "Beeface.luau" },
     { GameId = 10775182046, Display = "Throw a Seed",      File = "ThrowASeed.luau" },
     { GameId = 10195997258, Display = "Pull a Lucky Fish", File = "PullALuckyFish.luau" },
+    { GameId = 10766972131, Display = "Throw Food For Animals", File = "ThrowFoodForAnimals.luau" },
 }
 
 local function getScriptFile(entry)
